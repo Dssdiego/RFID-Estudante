@@ -6,6 +6,12 @@ Este projeto visa controlar a entrada e saída dos estudantes das salas de aula,
 
 Você pode acessar o gerenciamento do projeto no trello, pelo seguinte [link](https://trello.com/b/6YHA5UFT/rfid-arduino).
 
+## Bibliotecas Utilizadas
+
+- SPI
+- MFRC522
+- LiquidCrystal
+
 ### Autor
 
 Diego Santos Seabra
