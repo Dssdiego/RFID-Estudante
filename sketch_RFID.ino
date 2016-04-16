@@ -28,6 +28,8 @@ char st[20];
 int hora;
 int minuto;
 int segundo;
+bool b_Start;
+int b_Stop;
  
 void setup() 
 {
@@ -38,6 +40,11 @@ void setup()
   mfrc522.PCD_Init();   // Inicia MFRC522
   Serial.println("Aproxime o seu cartao do leitor...");
   Serial.println();
+  b_Start = false;
+  b_Stop = 0;
+  hora = 0;
+  minuto = 0;
+  segundo = 0;
   //Define o número de colunas e linhas do LCD:  
   lcd.begin(16, 2);  
   mensageminicial();
@@ -45,6 +52,25 @@ void setup()
  
 void loop() 
 {
+  if (b_Stop != 2){
+    if (b_Start == true){
+      unsigned long previousMillis = millis();
+      segundo++;
+        if(segundo == 60){
+            segundo = 0;
+            minuto++;
+          if(minuto == 60){
+            minuto = 0;
+            hora++;
+          }
+      }
+      imprimeTempo(hora,minuto,segundo);
+      unsigned long currentMillis = millis();
+      unsigned long intervalo = currentMillis - previousMillis;
+      unsigned long atraso = 1000 - intervalo;
+      delay(atraso);
+    }
+  }
   // Look for new cards
   if ( ! mfrc522.PICC_IsNewCardPresent()) 
   {
@@ -98,16 +124,30 @@ void loop()
 
   if (conteudo.substring(1) == "B6 AE 1B 2B") //Estudante B
   {
-    contagemRegressiva();
-    Serial.println("Ola Estudante B!");
-    Serial.println();
-    lcd.clear();
-    lcd.setCursor(0,0);
-    lcd.print("Ola Estudante B!");
-    lcd.setCursor(0,1);
-    lcd.print(" ACESSO NEGADO!");
-    delay(3000);
-    mensageminicial();
+      Serial.println("Ola Estudante B!");
+      Serial.println();
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print("Ola Estudante B!");
+      lcd.setCursor(0,1);
+      lcd.print("  BEM - VINDO!");
+      delay(3000);
+      mensageminicial();
+      b_Start = true;
+      b_Stop++;
+      if (b_Stop == 2){
+        imprimeTempo(hora,minuto,segundo);  
+        delay(3000);
+      }
+      if (b_Stop > 2){
+        b_Start = false;
+        lcd.setCursor(0,0);
+        lcd.print("Ola Estudante B!");
+        lcd.setCursor(0,1);
+        lcd.print("AULA JA ASSIST.!");
+        delay(3000);
+        mensageminicial();
+      }
   }
 } 
  
@@ -203,24 +243,23 @@ void imprimeSegundoB(int s){
 
 void contagemRegressiva()
 {
-  hora = 0;
-  minuto = 0;
-  segundo = 0;
-  while(hora!=-1 || minuto!=-1 || segundo!=-1){
     unsigned long previousMillis = millis();
-    segundo++;
+    segundo = segundo++;
     if(segundo == 60){
       segundo = 0;
-      minuto++;
+      minuto = minuto++;
       if(minuto == 60){
         minuto = 0;
-        hora++;
+        hora = hora++;
       }
     }
     imprimeTempo(hora,minuto,segundo);
     unsigned long currentMillis = millis();
     unsigned long intervalo = currentMillis - previousMillis;
     unsigned long atraso = 1000 - intervalo;
-    delay(atraso);  
-  }
+    delay(atraso);
+    //b_PrimeiraVez = false;
 }
+  
+
+
