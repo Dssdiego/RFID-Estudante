@@ -15,6 +15,10 @@ Este projeto visa controlar a entrada e saída dos estudantes das salas de aula,
 - Ao final de cada aula, o aluno passa novamente o cartão (ou crachá)
 - A aula é finalizada e são registradas as presenças dos alunos
 
+## Licença:
+
+Apache 2.0
+
 ### Autor
 
 Diego Santos Seabra
