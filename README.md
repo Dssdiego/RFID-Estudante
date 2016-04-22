@@ -8,10 +8,6 @@ Este projeto visa controlar a entrada e saída dos estudantes das salas de aula,
 - MFRC522
 - LiquidCrystal
 
-## Trello
-
-Você pode acessar o gerenciamento do projeto no trello, pelo seguinte [link](https://trello.com/b/6YHA5UFT/rfid-arduino).
-
 ### Autor
 
 Diego Santos Seabra
